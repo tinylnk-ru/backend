@@ -5,7 +5,7 @@ import { ShortLinkService } from './short-link.service';
 import { SearchShortLinkDto } from './dto/search-short-link.dto';
 import { DeleteResult } from 'typeorm';
 
-@Controller('short-links')
+@Controller({ path: 'short-links', version: '1' })
 export class ShortLinkController {
   constructor(
     @Inject() private readonly shortLinkService: ShortLinkService,
