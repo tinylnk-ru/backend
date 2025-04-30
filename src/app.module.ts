@@ -6,6 +6,8 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
 import { User } from './users/user.entity';
+import { ShortLinkModule } from './short-link/short-link.module';
+import { ShortLink } from './short-link/short-link.entity';
 
 dotenv.config();
 
@@ -21,10 +23,11 @@ dotenv.config();
       username: process.env.DB_USER,
       password: process.env.DB_PASS,
       database: process.env.DB_NAME,
-      entities: [User],
+      entities: [User, ShortLink],
       synchronize: true
     }),
-    UsersModule
+    UsersModule,
+    ShortLinkModule
   ],
   controllers: [AppController],
   providers: [AppService],
