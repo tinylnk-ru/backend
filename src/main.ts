@@ -1,7 +1,7 @@
 import * as dotenv from 'dotenv';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ValidationPipe, VersioningType } from '@nestjs/common';
+import { RequestMethod, ValidationPipe, VersioningType } from '@nestjs/common';
 
 dotenv.config();
 
@@ -9,7 +9,9 @@ async function bootstrap() {
   const PORT = process.env.PORT ?? 3000;
   const app = await NestFactory.create(AppModule);
 
-  app.setGlobalPrefix('api');
+  app.setGlobalPrefix('api', {
+    exclude: [{ path: 'l/:shortCode', method: RequestMethod.GET }],
+  });
 
   app.enableVersioning({
     type: VersioningType.URI,

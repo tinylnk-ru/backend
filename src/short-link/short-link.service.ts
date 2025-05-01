@@ -15,6 +15,10 @@ export class ShortLinkService {
     private readonly shortLinkRepository: Repository<ShortLink>
   ) {}
 
+  async getShortLinkByCode(shortCode: string): Promise<ShortLink | null> {
+    return this.shortLinkRepository.findOne({ where: { shortCode } });
+  }
+
   async searchShortLinks(searchParams: SearchShortLinkDto): Promise<ShortLink[]> {
     const { id, shortCode, originalUrl, limit = 10, offset = 0 } = searchParams;
 

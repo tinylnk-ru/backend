@@ -7,6 +7,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 @Module({
   imports: [TypeOrmModule.forFeature([ShortLink])],
   controllers: [ShortLinkController],
-  providers: [ShortLinkService]
+  providers: [ShortLinkService],
+  exports: [ShortLinkService],
 })
 export class ShortLinkModule {}
