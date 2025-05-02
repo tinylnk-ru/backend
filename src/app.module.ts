@@ -8,6 +8,7 @@ import { UsersModule } from './users/users.module';
 import { User } from './users/user.entity';
 import { ShortLinkModule } from './short-link/short-link.module';
 import { ShortLink } from './short-link/short-link.entity';
+import { MailModule } from './mail/mail.module';
 
 dotenv.config();
 
@@ -27,7 +28,8 @@ dotenv.config();
       synchronize: true
     }),
     UsersModule,
-    ShortLinkModule
+    ShortLinkModule,
+    MailModule
   ],
   controllers: [AppController],
   providers: [AppService],

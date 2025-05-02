@@ -2,12 +2,21 @@ import * as dotenv from 'dotenv';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { RequestMethod, ValidationPipe, VersioningType } from '@nestjs/common';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 dotenv.config();
 
 async function bootstrap() {
   const PORT = process.env.PORT ?? 3000;
   const app = await NestFactory.create(AppModule);
+
+  const config = new DocumentBuilder()
+    .setTitle('Tinylnk.ru API description')
+    .setVersion('0.0.1')
+    .addTag('tinylnk')
+    .build();
+  const documentFactory = () => SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, documentFactory)
 
   app.setGlobalPrefix('api', {
     exclude: [{ path: 'l/:shortCode', method: RequestMethod.GET }],
