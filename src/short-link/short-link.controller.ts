@@ -1,9 +1,10 @@
-import { Body, Controller, Delete, Get, Inject, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Inject, Param, Post, UseGuards } from '@nestjs/common';
 import { CreateShortLinkDto } from './dto/create-short-link.dto';
 import { ShortLink } from './short-link.entity';
 import { ShortLinkService } from './short-link.service';
 import { SearchShortLinkDto } from './dto/search-short-link.dto';
 import { DeleteResult } from 'typeorm';
+import { JwtAuthGuard } from '../auth/guards/jwt.auth.guard';
 
 @Controller({ path: 'short-links', version: '1' })
 export class ShortLinkController {
@@ -11,6 +12,7 @@ export class ShortLinkController {
     @Inject() private readonly shortLinkService: ShortLinkService,
   ) {}
 
+  @UseGuards(JwtAuthGuard)
   @Get()
   async getShortLinks(@Body() searchShortLinkDto: SearchShortLinkDto): Promise<ShortLink[]> {
     return await this.shortLinkService.searchShortLinks(searchShortLinkDto);
