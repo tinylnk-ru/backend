@@ -11,6 +11,9 @@ export class ShortLink {
   @Column()
   originalUrl: string;
 
+  @Column({ type: 'int', default: null, nullable: true })
+  authorId: number | null;
+
   @CreateDateColumn()
   createdAt: Date;
 }

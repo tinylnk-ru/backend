@@ -12,18 +12,20 @@ export class ShortLinkController {
     @Inject() private readonly shortLinkService: ShortLinkService,
   ) {}
 
-  @UseGuards(JwtAuthGuard)
   @Get()
+  @UseGuards(JwtAuthGuard)
   async getShortLinks(@Body() searchShortLinkDto: SearchShortLinkDto): Promise<ShortLink[]> {
     return await this.shortLinkService.searchShortLinks(searchShortLinkDto);
   }
 
   @Post()
+  @UseGuards(JwtAuthGuard)
   async create(@Body() createShortLinkDto: CreateShortLinkDto): Promise<ShortLink> {
     return await this.shortLinkService.createShortLink(createShortLinkDto);
   }
 
   @Delete(':id')
+  @UseGuards(JwtAuthGuard)
   async deleteShortLink(@Param('id') id: number): Promise<DeleteResult> {
     return await this.shortLinkService.deleteShortLink(id);
   }
