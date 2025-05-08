@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, Get, Inject, Param, Post } from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Inject,
+    Param,
+    Post,
+} from '@nestjs/common';
 import { CreateShortLinkDto } from './dto/create-short-link.dto';
 import { ShortLink } from './short-link.entity';
 import { ShortLinkService } from './short-link.service';
@@ -12,12 +20,16 @@ export class ShortLinkController {
     ) {}
 
     @Get()
-    async getShortLinks(@Body() searchShortLinkDto: SearchShortLinkDto): Promise<ShortLink[]> {
+    async getShortLinks(
+        @Body() searchShortLinkDto: SearchShortLinkDto,
+    ): Promise<ShortLink[]> {
         return await this.shortLinkService.searchShortLinks(searchShortLinkDto);
     }
 
     @Post()
-    async create(@Body() createShortLinkDto: CreateShortLinkDto): Promise<ShortLink> {
+    async create(
+        @Body() createShortLinkDto: CreateShortLinkDto,
+    ): Promise<ShortLink> {
         return await this.shortLinkService.createShortLink(createShortLinkDto);
     }
 

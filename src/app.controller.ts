@@ -1,4 +1,12 @@
-import { Controller, Get, Inject, Logger, NotFoundException, Param, Redirect } from '@nestjs/common';
+import {
+    Controller,
+    Get,
+    Inject,
+    Logger,
+    NotFoundException,
+    Param,
+    Redirect,
+} from '@nestjs/common';
 import { ShortLinkService } from './short-link/short-link.service';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
@@ -10,8 +18,7 @@ export class AppController {
     constructor(
         private readonly shortLinkService: ShortLinkService,
         @Inject(CACHE_MANAGER) private cacheManager: Cache,
-    ) {
-    }
+    ) {}
 
     @Get('l/:shortCode')
     @Redirect()
@@ -26,8 +33,11 @@ export class AppController {
             return { url: cachedUrl };
         }
 
-        this.logger.log(`Cache miss for key: ${cacheKey}. Fetching from database.`);
-        const shortLink = await this.shortLinkService.getShortLinkByCode(shortCode);
+        this.logger.log(
+            `Cache miss for key: ${cacheKey}. Fetching from database.`,
+        );
+        const shortLink =
+            await this.shortLinkService.getShortLinkByCode(shortCode);
 
         if (!shortLink) {
             this.logger.warn(`Short link not found for code: ${shortCode}`);

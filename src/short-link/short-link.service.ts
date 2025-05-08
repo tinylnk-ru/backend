@@ -12,15 +12,23 @@ export class ShortLinkService {
 
     constructor(
         @InjectRepository(ShortLink)
-        private readonly shortLinkRepository: Repository<ShortLink>
+        private readonly shortLinkRepository: Repository<ShortLink>,
     ) {}
 
     async getShortLinkByCode(shortCode: string): Promise<ShortLink | null> {
         return this.shortLinkRepository.findOne({ where: { shortCode } });
     }
 
-    async searchShortLinks(searchParams: SearchShortLinkDto): Promise<ShortLink[]> {
-        const { id, shortCode, originalUrl, limit = 10, offset = 0 } = searchParams;
+    async searchShortLinks(
+        searchParams: SearchShortLinkDto,
+    ): Promise<ShortLink[]> {
+        const {
+            id,
+            shortCode,
+            originalUrl,
+            limit = 10,
+            offset = 0,
+        } = searchParams;
 
         const searchConditions: any = {};
 
@@ -43,12 +51,14 @@ export class ShortLinkService {
 
         return data;
     }
-    async createShortLink(createShortLinkDto: CreateShortLinkDto): Promise<ShortLink> {
+    async createShortLink(
+        createShortLinkDto: CreateShortLinkDto,
+    ): Promise<ShortLink> {
         const shortCode = nanoid(this.SHORT_CODE_SIZE);
 
         const newShortLink = this.shortLinkRepository.create({
             originalUrl: createShortLinkDto.originalUrl,
-            shortCode
+            shortCode,
         });
 
         return this.shortLinkRepository.save(newShortLink);
@@ -57,7 +67,9 @@ export class ShortLinkService {
         const deleteResult = await this.shortLinkRepository.delete(shortLinkId);
 
         if (deleteResult.affected === 0) {
-            throw new BadRequestException(`ShortLink not found by id ${shortLinkId}`);
+            throw new BadRequestException(
+                `ShortLink not found by id ${shortLinkId}`,
+            );
         }
 
         return deleteResult;
