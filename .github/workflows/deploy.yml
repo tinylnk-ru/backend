@@ -17,7 +17,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22',
+          node-version: '22'
           cache: 'npm'
 
       - name: Setup dependencies
@@ -25,9 +25,6 @@ jobs:
 
       - name: Build project
         run: npm run build
-
-      - name: Install pm2 on server
-        run: npm i -g pm2
 
       - name: Deploy to server
         uses: appleboy/ssh-action@v1
@@ -37,8 +34,10 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT || 22 }}
           script: |
+            which pm2 || npm i -g pm2
             cd /home/repositories/tinylnk/backend
+            git reset --hard
             git pull origin main
             npm install
             npm run build
-            pm2 restart tinylnk-backend
+            pm2 startOrReload ecosystem.config.js
