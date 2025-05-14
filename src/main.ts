@@ -7,15 +7,15 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 dotenv.config();
 
 async function bootstrap() {
-    const logger = new Logger('Server');
+    const logger = new Logger('Application');
 
     const PORT = process.env.PORT ?? 3000;
     const app = await NestFactory.create(AppModule);
 
     const config = new DocumentBuilder()
-        .setTitle('Url Shortener API')
+        .setTitle('Tinylnk API')
         .setVersion('1.0.0')
-        .addTag('url-shortener')
+        .addTag('tinylnk.ru')
         .build();
     const documentFactory = () => SwaggerModule.createDocument(app, config);
     SwaggerModule.setup('api', app, documentFactory);
